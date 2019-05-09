@@ -13,6 +13,7 @@ def index():
     # render_template("index.html")
     return "Hey world, please type predict/ experience value on the url"
 
+
 @app.route('/predict/<float:exp>', methods=['GET','POST'])
 def predict(exp):
     if request.method == "POST":
