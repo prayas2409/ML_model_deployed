@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>
+        The salary for given experience is:
+    </p>
+    <table border = 3>
+            <tr>
+               <th> Salary</th>
+               <td> {{ salary }} </td>
+            </tr>
+      </table>
+    <br>
+    <form action="/" method="post">
+        <i> Try another response </i>
+        <input type="submit">
+    </form>
+</body>
+</html>
