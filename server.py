@@ -1,6 +1,6 @@
 # Import libraries
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 import pickle
 
 app = Flask(__name__)
@@ -9,22 +9,27 @@ app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
 
 
-@app.route("/")
+@app.route("/",methods=['GET','POST'])
 def index():
-    # render_template("index.html")
-    return "Hey world, please type predict/ experience value on the url"
+    return render_template("index.html")
 
 
-@app.route('/predict/<float:exp>', methods=['GET','POST'])
-def predict(exp):
+@app.route('/predict', methods=['GET', 'POST'])
+def predict(exp=None):
     if request.method == "POST":
         # Get the data from the POST request.
-        data = request.get_json(force=True)
+
+        # data = request.get_json(force=True)
+
+        data = request.form['exp']
         # Make prediction using model loaded from disk as per the data.
-        prediction = model.predict([[np.array(data['exp'])]])
+        prediction = model.predict(np.array(float(data)).reshape(-1, 1))
         # Take the first value of prediction
         output = prediction[0]
-        return jsonify(output)
+
+        # if we want to use json Send in below way and then you'll have to parse it at html page using js or jquery
+        # output=jsonify(output)
+        return render_template('predict.html', salary=output)
     else:
         return str(model.predict(np.array(exp).reshape(-1, 1)))
 
